@@ -5,7 +5,6 @@ import { MessageCircle, X, Send, Minimize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
-import { useLanguage } from "@/lib/language-context"
 import { cn } from "@/lib/utils"
 
 interface Message {
@@ -17,7 +16,7 @@ interface Message {
 }
 
 export function LiveChat() {
-  const { t } = useLanguage()
+  const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
@@ -29,6 +28,7 @@ export function LiveChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setMounted(true)
     const savedSession = localStorage.getItem("chat_session_id")
     const savedName = localStorage.getItem("chat_user_name")
     if (savedSession && savedName) {
@@ -53,7 +53,11 @@ export function LiveChat() {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "chat_messages", filter: `session_id=eq.${sessionId}` },
         (payload) => {
-          setMessages((prev) => [...prev, payload.new as Message])
+          const newMsg = payload.new as Message
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === newMsg.id)) return prev
+            return [...prev, newMsg]
+          })
         },
       )
       .subscribe()
@@ -64,13 +68,21 @@ export function LiveChat() {
   }, [sessionId])
 
   const loadMessages = async (sid: string) => {
-    const supabase = getSupabaseBrowserClient()
-    const { data } = await supabase
-      .from("chat_messages")
-      .select("*")
-      .eq("session_id", sid)
-      .order("created_at", { ascending: true })
-    if (data) setMessages(data)
+    try {
+      const supabase = getSupabaseBrowserClient()
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("*")
+        .eq("session_id", sid)
+        .order("created_at", { ascending: true })
+
+      if (error) {
+        console.log("[v0] Error loading messages:", error)
+      }
+      if (data) setMessages(data)
+    } catch (error) {
+      console.log("[v0] Error loading messages:", error)
+    }
   }
 
   const startChat = () => {
@@ -86,23 +98,60 @@ export function LiveChat() {
     if (!newMessage.trim() || sending) return
     setSending(true)
 
-    const supabase = getSupabaseBrowserClient()
-    await supabase.from("chat_messages").insert({
-      sender_name: userName,
-      message: newMessage,
-      is_from_admin: false,
-      session_id: sessionId,
-    })
+    const messageText = newMessage.trim()
+    const tempId = `temp_${Date.now()}`
 
-    setNewMessage("")
+    // Create optimistic message to show immediately
+    const optimisticMessage: Message = {
+      id: tempId,
+      sender_name: userName,
+      message: messageText,
+      is_from_admin: false,
+      created_at: new Date().toISOString(),
+    }
+
+    // Add to messages immediately for instant feedback
+    setMessages((prev) => [...prev, optimisticMessage])
+    setNewMessage("") // Clear input
+
+    try {
+      const supabase = getSupabaseBrowserClient()
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .insert({
+          sender_name: userName,
+          message: messageText,
+          is_from_admin: false,
+          session_id: sessionId,
+        })
+        .select()
+        .single()
+
+      if (error) {
+        console.log("[v0] Error sending message:", error)
+        // Remove optimistic message on error
+        setMessages((prev) => prev.filter((m) => m.id !== tempId))
+        setNewMessage(messageText) // Restore message
+      } else if (data) {
+        // Replace optimistic message with real one
+        setMessages((prev) => prev.map((m) => (m.id === tempId ? data : m)))
+      }
+    } catch (error) {
+      console.log("[v0] Error sending message:", error)
+      setMessages((prev) => prev.filter((m) => m.id !== tempId))
+      setNewMessage(messageText)
+    }
+
     setSending(false)
   }
+
+  if (!mounted) return null
 
   if (!isOpen) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-primary text-primary-foreground p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all hover:scale-110"
+        className="fixed bottom-6 right-6 z-[9998] bg-primary text-primary-foreground p-4 rounded-full shadow-lg hover:bg-primary/90 transition-all hover:scale-110"
         aria-label="Open chat"
       >
         <MessageCircle className="h-6 w-6" />
@@ -113,15 +162,15 @@ export function LiveChat() {
   return (
     <div
       className={cn(
-        "fixed bottom-6 right-6 z-50 bg-card border border-border rounded-2xl shadow-2xl transition-all overflow-hidden",
+        "fixed bottom-6 right-6 z-[9998] bg-card border border-border rounded-2xl shadow-2xl transition-all overflow-hidden flex flex-col",
         isMinimized ? "w-72 h-14" : "w-80 sm:w-96 h-[500px]",
       )}
     >
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
+      <div className="flex-shrink-0 bg-primary text-primary-foreground p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <MessageCircle className="h-5 w-5" />
-          <span className="font-semibold">{t("live_chat")}</span>
+          <span className="font-semibold">Live Chat</span>
         </div>
         <div className="flex items-center gap-1">
           <Button
@@ -146,12 +195,12 @@ export function LiveChat() {
       {!isMinimized && (
         <>
           {!isStarted ? (
-            <div className="p-6 flex flex-col gap-4">
+            <div className="flex-1 p-6 flex flex-col gap-4">
               <p className="text-sm text-muted-foreground">
                 Welcome to Team Chetak support! Enter your name to start chatting.
               </p>
               <Input
-                placeholder={t("your_name")}
+                placeholder="Your Name"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && startChat()}
@@ -162,8 +211,8 @@ export function LiveChat() {
             </div>
           ) : (
             <>
-              {/* Messages */}
-              <div className="flex-1 p-4 overflow-y-auto h-[360px] space-y-3">
+              {/* Messages - scrollable */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-3">
                 {messages.length === 0 && (
                   <p className="text-center text-sm text-muted-foreground py-8">
                     Send a message to start the conversation!
@@ -188,10 +237,10 @@ export function LiveChat() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
-              <div className="p-4 border-t border-border flex gap-2">
+              {/* Input - fixed at bottom */}
+              <div className="flex-shrink-0 p-4 border-t border-border flex gap-2">
                 <Input
-                  placeholder={t("type_message")}
+                  placeholder="Type your message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && sendMessage()}

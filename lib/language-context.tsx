@@ -23,12 +23,19 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const setLanguage = (lang: Language) => {
+    console.log("[v0] Setting language to:", lang)
     setLanguageState(lang)
     localStorage.setItem("language", lang)
+    document.documentElement.setAttribute("lang", lang)
   }
 
   const t = (key: TranslationKey): string => {
-    return translations[key]?.[language] || translations[key]?.en || key
+    const translation = translations[key]?.[language]
+    if (!translation) {
+      console.log("[v0] Missing translation for key:", key, "language:", language)
+      return translations[key]?.en || key
+    }
+    return translation
   }
 
   return <LanguageContext.Provider value={{ language, setLanguage, t }}>{children}</LanguageContext.Provider>
@@ -37,7 +44,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 export function useLanguage() {
   const context = useContext(LanguageContext)
   if (!context) {
-    throw new Error("useLanguage must be used within a LanguageProvider")
+    return {
+      language: "en" as Language,
+      setLanguage: (lang: Language) => {
+        console.log("[v0] useLanguage called outside provider, cannot set:", lang)
+      },
+      t: (key: TranslationKey) => translations[key]?.en || key,
+    }
   }
   return context
 }

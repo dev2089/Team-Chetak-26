@@ -3,9 +3,8 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { LanguageProvider } from "@/lib/language-context"
-import { ThemeProvider } from "@/lib/theme-context"
 import { LiveChat } from "@/components/live-chat"
+import { LanguageProvider } from "@/lib/language-context"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -42,12 +41,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`font-sans antialiased`}>
-        <ThemeProvider>
-          <LanguageProvider>
-            {children}
-            <LiveChat />
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          {children}
+          <LiveChat />
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

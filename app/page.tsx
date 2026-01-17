@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 import {
   ArrowRight,
   Users,
@@ -17,42 +20,56 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { getSupabaseServerClient } from "@/lib/supabase/server"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+import { useLanguage } from "@/lib/language-context"
 import type { TeamMember, Event, NewsPost, Testimonial, IncomeSource } from "@/lib/types"
 
-export default async function HomePage() {
-  const supabase = await getSupabaseServerClient()
+export default function HomePage() {
+  const { t } = useLanguage()
+  const [team, setTeam] = useState<TeamMember[]>([])
+  const [events, setEvents] = useState<Event[]>([])
+  const [news, setNews] = useState<NewsPost[]>([])
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+  const [incomeSources, setIncomeSources] = useState<IncomeSource[]>([])
 
-  const [teamResult, eventsResult, newsResult, testimonialsResult, incomeResult] = await Promise.all([
-    supabase.from("team_members").select("*").eq("is_active", true).order("display_order").limit(4),
-    supabase
-      .from("events")
-      .select("*")
-      .eq("is_published", true)
-      .gte("start_date", new Date().toISOString())
-      .order("start_date")
-      .limit(3),
-    supabase
-      .from("news_posts")
-      .select("*")
-      .eq("is_published", true)
-      .order("published_at", { ascending: false })
-      .limit(3),
-    supabase
-      .from("testimonials")
-      .select("*")
-      .eq("is_active", true)
-      .eq("is_featured", true)
-      .order("display_order")
-      .limit(3),
-    supabase.from("income_sources").select("*").eq("is_active", true).order("display_order").limit(6),
-  ])
+  useEffect(() => {
+    const loadData = async () => {
+      const supabase = getSupabaseBrowserClient()
 
-  const team = (teamResult.data as TeamMember[]) || []
-  const events = (eventsResult.data as Event[]) || []
-  const news = (newsResult.data as NewsPost[]) || []
-  const testimonials = (testimonialsResult.data as Testimonial[]) || []
-  const incomeSources = (incomeResult.data as IncomeSource[]) || []
+      const [teamResult, eventsResult, newsResult, testimonialsResult, incomeResult] = await Promise.all([
+        supabase.from("team_members").select("*").eq("is_active", true).order("display_order").limit(4),
+        supabase
+          .from("events")
+          .select("*")
+          .eq("is_published", true)
+          .gte("start_date", new Date().toISOString())
+          .order("start_date")
+          .limit(3),
+        supabase
+          .from("news_posts")
+          .select("*")
+          .eq("is_published", true)
+          .order("published_at", { ascending: false })
+          .limit(3),
+        supabase
+          .from("testimonials")
+          .select("*")
+          .eq("is_active", true)
+          .eq("is_featured", true)
+          .order("display_order")
+          .limit(3),
+        supabase.from("income_sources").select("*").eq("is_active", true).order("display_order").limit(6),
+      ])
+
+      if (teamResult.data) setTeam(teamResult.data)
+      if (eventsResult.data) setEvents(eventsResult.data)
+      if (newsResult.data) setNews(newsResult.data)
+      if (testimonialsResult.data) setTestimonials(testimonialsResult.data)
+      if (incomeResult.data) setIncomeSources(incomeResult.data)
+    }
+
+    loadData()
+  }, [])
 
   const getCategoryIcon = (category: string | null) => {
     switch (category) {
@@ -90,22 +107,18 @@ export default async function HomePage() {
               <div className="text-center lg:text-left">
                 <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-6">
                   <Target className="h-4 w-4" />
-                  Monthly Team Target: ₹1 Crore
+                  {t("monthly_target")}
                 </div>
                 <h1 className="text-balance text-4xl font-bold tracking-tight text-sidebar-foreground sm:text-5xl lg:text-6xl">
-                  <span className="text-primary">TEAM CHETAK</span>
+                  <span className="text-primary">{t("team_chetak")}</span>
                   <br />
-                  <span className="text-sidebar-foreground/90">NEVER GIVE UP</span>
+                  <span className="text-sidebar-foreground/90">{t("never_give_up")}</span>
                 </h1>
-                <p className="mt-6 text-pretty text-lg text-muted-foreground sm:text-xl">
-                  Join 50,000+ team members achieving financial freedom through ATOMY network marketing. Transform your
-                  life with dedication, collaboration, and the spirit of Maharana Pratap. Reduce unemployment, build
-                  careers!
-                </p>
+                <p className="mt-6 text-pretty text-lg text-muted-foreground sm:text-xl">{t("hero_description")}</p>
                 <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-4">
                   <Link href="/join">
                     <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-                      <UserPlus className="h-5 w-5" /> Join Our Team
+                      <UserPlus className="h-5 w-5" /> {t("join_our_team")}
                     </Button>
                   </Link>
                   <Link href="/income">
@@ -114,7 +127,7 @@ export default async function HomePage() {
                       size="lg"
                       className="gap-2 border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent bg-transparent"
                     >
-                      14 Income Sources <ArrowRight className="h-4 w-4" />
+                      {t("income_streams_14")} <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
@@ -135,14 +148,15 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Stats Section */}
         <section className="px-6 py-12 lg:px-8 bg-background">
           <div className="mx-auto max-w-7xl">
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { value: "50,000+", label: "Team Members", icon: Users },
-                { value: "₹1 Cr", label: "Monthly Target", icon: Target },
-                { value: "14", label: "Income Streams", icon: IndianRupee },
-                { value: "3", label: "Yearly Trips", icon: Plane },
+                { value: "50,000+", label: t("team_members"), icon: Users },
+                { value: "₹1 Cr", label: t("monthly_target_short"), icon: Target },
+                { value: "14", label: t("income_streams"), icon: IndianRupee },
+                { value: "3", label: t("yearly_trips"), icon: Plane },
               ].map((stat) => (
                 <Card key={stat.label} className="border-border bg-card text-center">
                   <CardContent className="pt-6">
@@ -156,17 +170,18 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Income Sources */}
         {incomeSources.length > 0 && (
           <section className="px-6 py-16 lg:px-8 bg-muted/30">
             <div className="mx-auto max-w-7xl">
               <div className="flex items-center justify-between mb-10">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground">14 Ways to Earn</h2>
-                  <p className="mt-2 text-muted-foreground">Multiple income streams for financial freedom</p>
+                  <h2 className="text-3xl font-bold text-foreground">{t("ways_to_earn_14")}</h2>
+                  <p className="mt-2 text-muted-foreground">{t("multiple_income_streams")}</p>
                 </div>
                 <Link href="/income">
                   <Button variant="ghost" className="gap-2 text-primary hover:text-primary/80">
-                    View All <ArrowRight className="h-4 w-4" />
+                    {t("view_all")} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -201,30 +216,30 @@ export default async function HomePage() {
         <section className="px-6 py-16 lg:px-8 bg-background">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-foreground">Why Join Team Chetak?</h2>
-              <p className="mt-2 text-muted-foreground">Build your ATOMY business with our support</p>
+              <h2 className="text-3xl font-bold text-foreground">{t("why_join_team_chetak")}</h2>
+              <p className="mt-2 text-muted-foreground">{t("build_atomy_business")}</p>
             </div>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {[
                 {
                   icon: Users,
-                  title: "Reduce Unemployment",
-                  desc: "Help India grow by creating income opportunities for 50,000+ people",
+                  title: t("reduce_unemployment"),
+                  desc: t("reduce_unemployment_desc"),
                 },
                 {
                   icon: Calendar,
-                  title: "Daily Training",
-                  desc: "Regular workshops, motivation calls, and strategy sessions",
+                  title: t("daily_training"),
+                  desc: t("daily_training_desc"),
                 },
                 {
                   icon: IndianRupee,
-                  title: "14 Income Streams",
-                  desc: "Multiple ways to earn from bonuses to yearly trips",
+                  title: t("income_streams_14_title"),
+                  desc: t("income_streams_desc"),
                 },
                 {
                   icon: Trophy,
-                  title: "Recognition System",
-                  desc: "Monthly awards for best leaders, trainers & distributors",
+                  title: t("recognition_system"),
+                  desc: t("recognition_system_desc"),
                 },
               ].map((feature) => (
                 <Card key={feature.title} className="border-border bg-card">
@@ -247,12 +262,12 @@ export default async function HomePage() {
             <div className="mx-auto max-w-7xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground">Meet Our Leaders</h2>
-                  <p className="mt-2 text-muted-foreground">The talented people behind our success</p>
+                  <h2 className="text-3xl font-bold text-foreground">{t("meet_our_leaders")}</h2>
+                  <p className="mt-2 text-muted-foreground">{t("talented_people")}</p>
                 </div>
                 <Link href="/team">
                   <Button variant="ghost" className="gap-2 text-primary hover:text-primary/80">
-                    View All <ArrowRight className="h-4 w-4" />
+                    {t("view_all")} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -289,12 +304,12 @@ export default async function HomePage() {
             <div className="mx-auto max-w-7xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground">Upcoming Workshops</h2>
-                  <p className="mt-2 text-muted-foreground">{"Don't"} miss our training sessions</p>
+                  <h2 className="text-3xl font-bold text-foreground">{t("upcoming_workshops")}</h2>
+                  <p className="mt-2 text-muted-foreground">{t("dont_miss_training")}</p>
                 </div>
                 <Link href="/events">
                   <Button variant="ghost" className="gap-2 text-primary hover:text-primary/80">
-                    View All <ArrowRight className="h-4 w-4" />
+                    {t("view_all")} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -330,12 +345,12 @@ export default async function HomePage() {
             <div className="mx-auto max-w-7xl">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground">Latest Updates</h2>
-                  <p className="mt-2 text-muted-foreground">News and announcements from Team Chetak</p>
+                  <h2 className="text-3xl font-bold text-foreground">{t("latest_updates")}</h2>
+                  <p className="mt-2 text-muted-foreground">{t("news_announcements")}</p>
                 </div>
                 <Link href="/news">
                   <Button variant="ghost" className="gap-2 text-primary hover:text-primary/80">
-                    View All <ArrowRight className="h-4 w-4" />
+                    {t("view_all")} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -379,8 +394,8 @@ export default async function HomePage() {
           <section className="px-6 py-16 lg:px-8 bg-background">
             <div className="mx-auto max-w-7xl">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-foreground">Success Stories</h2>
-                <p className="mt-2 text-muted-foreground">Hear from our team members</p>
+                <h2 className="text-3xl font-bold text-foreground">{t("success_stories_title")}</h2>
+                <p className="mt-2 text-muted-foreground">{t("hear_from_members")}</p>
               </div>
               <div className="mt-10 grid gap-6 md:grid-cols-3">
                 {testimonials.map((testimonial) => (
@@ -426,15 +441,12 @@ export default async function HomePage() {
         {/* CTA */}
         <section className="bg-sidebar px-6 py-16 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold text-sidebar-foreground">Ready to Transform Your Life?</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Join Team Chetak today and start your journey towards financial freedom with ATOMY. Be part of {"India's"}{" "}
-              mission to reduce unemployment!
-            </p>
+            <h2 className="text-3xl font-bold text-sidebar-foreground">{t("ready_transform_life")}</h2>
+            <p className="mt-4 text-lg text-muted-foreground">{t("cta_description")}</p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Link href="/join">
                 <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-                  <UserPlus className="h-5 w-5" /> Join Now
+                  <UserPlus className="h-5 w-5" /> {t("join_now")}
                 </Button>
               </Link>
               <Link href="/leaderboard">
@@ -443,7 +455,7 @@ export default async function HomePage() {
                   size="lg"
                   className="gap-2 border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent bg-transparent"
                 >
-                  <Trophy className="h-5 w-5" /> View Leaderboard
+                  <Trophy className="h-5 w-5" /> {t("view_leaderboard")}
                 </Button>
               </Link>
             </div>
