@@ -221,3 +221,65 @@ export interface DownloadableFile {
   is_active: boolean
   created_at: string
 }
+
+export interface Notification {
+  id: string
+  title: string
+  message: string
+  notification_type: string
+  link_url: string | null
+  is_read: boolean
+  user_email: string | null
+  created_at: string
+}
+
+export interface WorkshopSession {
+  id: string
+  title: string
+  description: string | null
+  session_date: string
+  start_time: string | null
+  end_time: string | null
+  location: string | null
+  host_name: string | null
+  max_attendees: number | null
+  is_active: boolean
+  created_at: string
+}
+
+export interface AttendanceRecord {
+  id: string
+  session_id: string
+  member_name: string
+  member_email: string | null
+  member_phone: string | null
+  atomy_id: string | null
+  check_in_time: string
+  status: string
+  notes: string | null
+  created_at: string
+}
+
+export interface ChatMessage {
+  id: string
+  sender_name: string
+  sender_email: string | null
+  sender_phone: string | null
+  message: string
+  is_from_admin: boolean
+  is_read: boolean
+  session_id: string | null
+  created_at: string
+}
+
+export type Language = "en" | "hi" | "te" | "ta" | "pa"
+
+export interface Translations {
+  [key: string]: {
+    en: string
+    hi: string
+    te: string
+    ta: string
+    pa: string
+  }
+}

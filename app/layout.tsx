@@ -3,6 +3,9 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { LanguageProvider } from "@/lib/language-context"
+import { ThemeProvider } from "@/lib/theme-context"
+import { LiveChat } from "@/components/live-chat"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -10,7 +13,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Team Chetak ATOMY | Never Give Up",
   description:
-    "Join 450+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
+    "Join 50,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
   generator: "v0.app",
   icons: {
     icon: [
@@ -37,9 +40,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`font-sans antialiased`}>
-        {children}
+        <ThemeProvider>
+          <LanguageProvider>
+            {children}
+            <LiveChat />
+          </LanguageProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

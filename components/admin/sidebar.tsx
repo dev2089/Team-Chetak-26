@@ -26,6 +26,9 @@ import {
   Award,
   Megaphone,
   Download,
+  ClipboardCheck,
+  Bell,
+  MessageCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -36,6 +39,9 @@ const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Member Signups", href: "/admin/signups", icon: UserPlus },
   { name: "Feedback", href: "/admin/feedback", icon: MessageSquare },
+  { name: "Push Notifications", href: "/admin/notifications", icon: Bell },
+  { name: "Live Chat", href: "/admin/chat", icon: MessageCircle },
+  { name: "Attendance", href: "/admin/attendance", icon: ClipboardCheck },
   { name: "Announcements", href: "/admin/announcements", icon: Megaphone },
   { name: "Income Sources", href: "/admin/income", icon: IndianRupee },
   { name: "Monthly Awards", href: "/admin/awards", icon: Trophy },
