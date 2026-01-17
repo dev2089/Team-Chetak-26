@@ -54,7 +54,7 @@ const navigation = [
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ]
 
-const SUPER_ADMIN_EMAIL = "devashu2089@gmail.com"
+const SUPER_ADMIN_EMAIL = "devanshu2089@gmail.com"
 
 export function AdminSidebar() {
   const pathname = usePathname()
