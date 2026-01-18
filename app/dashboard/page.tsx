@@ -19,7 +19,7 @@ import Link from "next/link"
 
 // Sample performance data
 const monthlyStats = {
-  totalMembers: 5000+,
+  totalMembers: 5000,
   newMembersThisMonth: 150,
   memberGrowth: 2.5,
   monthlyTarget: 1000000, // 10 Lakhs
