@@ -59,7 +59,7 @@ export default function DirectoryPage() {
             <Users className="h-16 w-16 text-primary mx-auto mb-4" />
             <h1 className="text-4xl font-bold text-foreground mb-4">Member Directory</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Connect with 50,000+ Team Chetak members across India. Find leaders, mentors, and team members in your
+              Connect with 5,000+ Team Chetak members across India. Find leaders, mentors, and team members in your
               region.
             </p>
           </div>
@@ -98,7 +98,7 @@ export default function DirectoryPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
-                <p className="text-3xl font-bold text-primary">50,000+</p>
+                <p className="text-3xl font-bold text-primary">5,000+</p>
                 <p className="text-sm text-muted-foreground">Total Members</p>
               </div>
               <div>
@@ -173,7 +173,7 @@ export default function DirectoryPage() {
             <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
               <Button className="gap-2 bg-green-600 hover:bg-green-700">
                 <MessageCircle className="h-4 w-4" />
-                Connect via WhatsApp: +91 63764 76075
+                Connect via WhatsApp
               </Button>
             </a>
           </div>

@@ -77,7 +77,7 @@ export default function JoinPage() {
             </p>
             <div className="mt-6 space-y-3">
               <a
-                href="https://wa.me/919876543210?text=Hi!%20I%20just%20registered%20for%20Team%20Chetak%20ATOMY."
+                href="https://wa.me/916376476075?text=Hi!%20I%20just%20registered%20for%20Team%20Chetak%20ATOMY."
                 target="_blank"
                 rel="noopener noreferrer"
               >

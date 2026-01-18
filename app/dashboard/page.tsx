@@ -19,13 +19,13 @@ import Link from "next/link"
 
 // Sample performance data
 const monthlyStats = {
-  totalMembers: 50000,
-  newMembersThisMonth: 1250,
-  memberGrowth: 12.5,
-  monthlyTarget: 10000000, // 1 Crore
-  achieved: 8500000, // 85 Lakhs
+  totalMembers: 5000+,
+  newMembersThisMonth: 150,
+  memberGrowth: 2.5,
+  monthlyTarget: 1000000, // 10 Lakhs
+  achieved: 850000, // 8.5 Lakhs
   achievementPercent: 85,
-  activeMembers: 35000,
+  activeMembers: 3000,
   topPerformers: 150,
 }
 
