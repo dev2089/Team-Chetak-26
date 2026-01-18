@@ -122,8 +122,8 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-md">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
             <Image src="/images/logo.png" alt="Team Chetak" width={48} height={48} className="rounded-lg" />
@@ -234,6 +234,11 @@ export function Header() {
               <UserPlus className="h-4 w-4" /> {t("join_team")}
             </Button>
           </Link>
+          <Link href="/login">
+            <Button size="sm" variant="outline" className="gap-2 bg-transparent">
+              <Users className="h-4 w-4" /> {t("admin_login")}
+            </Button>
+          </Link>
         </div>
       </nav>
 
@@ -342,7 +347,7 @@ export function Header() {
             <div className="flex-shrink-0 p-4 border-t border-border space-y-3">
               <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="block">
                 <Button className="w-full gap-2 bg-green-600 hover:bg-green-700 text-white">
-                  <MessageCircle className="h-4 w-4" /> {t("whatsapp")}: +91 63764 76075
+                  <MessageCircle className="h-4 w-4" /> {t("whatsapp")}
                 </Button>
               </a>
               <Link href="/join" onClick={() => setMobileMenuOpen(false)} className="block">
@@ -350,12 +355,10 @@ export function Header() {
                   <UserPlus className="h-4 w-4" /> {t("join_team")}
                 </Button>
               </Link>
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-center py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {t("admin_login")}
+              <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="block">
+                <Button variant="outline" className="w-full gap-2 bg-transparent">
+                  <Users className="h-4 w-4" /> {t("admin_login")}
+                </Button>
               </Link>
             </div>
           </div>

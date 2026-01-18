@@ -112,11 +112,11 @@ export function LiveChat() {
 
     // Add to messages immediately for instant feedback
     setMessages((prev) => [...prev, optimisticMessage])
-    setNewMessage("") // Clear input
+    setNewMessage("") // Clear input immediately
 
     try {
       const supabase = getSupabaseBrowserClient()
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("chat_messages")
         .insert({
           sender_name: userName,
@@ -124,18 +124,14 @@ export function LiveChat() {
           is_from_admin: false,
           session_id: sessionId,
         })
-        .select()
-        .single()
 
       if (error) {
         console.log("[v0] Error sending message:", error)
-        // Remove optimistic message on error
+        // Remove optimistic message on error and restore input
         setMessages((prev) => prev.filter((m) => m.id !== tempId))
-        setNewMessage(messageText) // Restore message
-      } else if (data) {
-        // Replace optimistic message with real one
-        setMessages((prev) => prev.map((m) => (m.id === tempId ? data : m)))
+        setNewMessage(messageText)
       }
+      // On success, keep the optimistic message (don't need to update it)
     } catch (error) {
       console.log("[v0] Error sending message:", error)
       setMessages((prev) => prev.filter((m) => m.id !== tempId))

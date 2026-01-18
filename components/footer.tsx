@@ -20,7 +20,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              India&apos;s premier ATOMY network marketing team with 50,000+ members dedicated to creating financial
+              India&apos;s premier ATOMY network marketing team with 5,000+ members dedicated to creating financial
               freedom and reducing unemployment. Join us to transform your life through quality products and a
               supportive community.
             </p>
@@ -32,7 +32,7 @@ export function Footer() {
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors"
               >
                 <MessageCircle className="h-4 w-4" />
-                WhatsApp: {PHONE_NUMBER}
+                WhatsApp
               </a>
             </div>
           </div>
@@ -49,6 +49,7 @@ export function Footer() {
                 { name: "Member Directory", href: "/directory" },
                 { name: "Join Team", href: "/join" },
                 { name: "Feedback", href: "/feedback" },
+                { name: "Admin Panel", href: "/login" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
@@ -89,7 +90,7 @@ export function Footer() {
         </div>
         <div className="mt-8 border-t border-border pt-8">
           <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Team Chetak ATOMY. All rights reserved. | Never Give Up | Empowering India
+            © 2022 Team Chetak ATOMY. All rights reserved. | Never Give Up | Empowering India
           </p>
         </div>
       </div>
