@@ -154,7 +154,7 @@ export default function HomePage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { value: "5,000+", label: t("team_members"), icon: Users },
-                { value: "₹1 Cr", label: t("monthly_target_short"), icon: Target },
+                { value: "₹10 lakh", label: t("monthly_target_short"), icon: Target },
                 { value: "14", label: t("income_streams"), icon: IndianRupee },
                 { value: "3", label: t("yearly_trips"), icon: Plane },
               ].map((stat) => (

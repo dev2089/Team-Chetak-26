@@ -108,7 +108,7 @@ export default async function AboutPage() {
                 <CardContent>
                   <p className="text-lg leading-relaxed text-primary-foreground/90">
                     {getSetting("about_mission") ||
-                      "Our mission is to empower 50,000+ team members to achieve financial freedom through ATOMY network marketing, with a monthly team target of ₹1 Crore. We are committed to reducing unemployment in India by creating sustainable income opportunities."}
+                      "Our mission is to empower 5,000+ team members to achieve financial freedom through ATOMY network marketing, with a monthly team target of ₹1 Crore. We are committed to reducing unemployment in India by creating sustainable income opportunities."}
                   </p>
                 </CardContent>
               </Card>
@@ -143,7 +143,7 @@ export default async function AboutPage() {
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed mt-4">
                 Founded with a vision to create financial freedom for thousands of Indians, we have grown into a
-                powerful network of 50,000+ dedicated members across India. Our team provides comprehensive training,
+                powerful network of 5,000+ dedicated members across India. Our team provides comprehensive training,
                 mentorship, and support systems to help every member build a successful ATOMY business.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed mt-4">
@@ -213,7 +213,7 @@ export default async function AboutPage() {
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-bold text-sidebar-foreground">Ready to Start Your Journey?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Join 50,000+ members who are building their dreams with Team Chetak. Get access to training, mentorship,
+              Join 5,000+ members who are building their dreams with Team Chetak. Get access to training, mentorship,
               and a supportive community.
             </p>
             <div className="mt-8">
