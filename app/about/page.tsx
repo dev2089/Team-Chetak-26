@@ -29,7 +29,7 @@ export default async function AboutPage() {
   ]
 
   const stats = [
-    { value: "50,000+", label: "Team Members", icon: Users },
+    { value: "5,000+", label: "Team Members", icon: Users },
     { value: "₹1 Cr", label: "Monthly Target", icon: Target },
     { value: "14", label: "Income Streams", icon: IndianRupee },
     { value: "3", label: "Yearly Trips", icon: Plane },
