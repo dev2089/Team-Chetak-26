@@ -9,7 +9,6 @@ const WHATSAPP_NUMBER = "916376476075"
 
 // Sample member directory data - in production this would come from database
 const sampleMembers = [
-  { id: 1, name: "Bajrang singh tanwar", rank: "ASM", location: "INDIA", joinDate: "2020", isLeader: true },
 ]
 
 const states = [
