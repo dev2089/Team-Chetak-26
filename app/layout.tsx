@@ -12,7 +12,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Team Chetak ATOMY | Never Give Up",
   description:
-    "Join 50,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
+    "Join 5,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
   generator: "v0.app",
   icons: {
     icon: [
