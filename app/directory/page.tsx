@@ -7,18 +7,6 @@ import { Button } from "@/components/ui/button"
 
 const WHATSAPP_NUMBER = "916376476075"
 
-// Sample member directory data - in production this would come from database
-const sampleMembers = [
-  { id: 1, name: "Devanshu Sharma", rank: "Star Master", location: "Rajasthan", joinDate: "2020", isLeader: true },
-  { id: 2, name: "Priya Patel", rank: "Diamond Master", location: "Gujarat", joinDate: "2021", isLeader: true },
-  { id: 3, name: "Rahul Kumar", rank: "Sales Master", location: "Delhi", joinDate: "2022", isLeader: false },
-  { id: 4, name: "Anita Singh", rank: "Sharon Rose Master", location: "Maharashtra", joinDate: "2021", isLeader: true },
-  { id: 5, name: "Vikram Yadav", rank: "Diamond Master", location: "Uttar Pradesh", joinDate: "2022", isLeader: false },
-  { id: 6, name: "Sunita Devi", rank: "Sales Master", location: "Bihar", joinDate: "2023", isLeader: false },
-  { id: 7, name: "Amit Joshi", rank: "Star Master", location: "Madhya Pradesh", joinDate: "2021", isLeader: true },
-  { id: 8, name: "Kavita Sharma", rank: "Diamond Master", location: "Rajasthan", joinDate: "2022", isLeader: false },
-]
-
 const states = [
   "All States",
   "Rajasthan",
