@@ -138,7 +138,7 @@ export default function JoinPage() {
               <p className="text-xs text-muted-foreground">
                 Don't have an ATOMY ID?{" "}
                 <a
-                  href="https://wa.me/919876543210?text=Hi!%20I%20need%20help%20creating%20an%20ATOMY%20ID."
+                  href="https://wa.me/916376476075?text=Hi!%20I%20need%20help%20creating%20an%20ATOMY%20ID."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
