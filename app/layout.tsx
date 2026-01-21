@@ -40,6 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <meta name="google-site-verification" content="NqDtQZA4mgeNnfo0-b7BCsn8-O25HQ1aaMr2z7KtTDY" />
+      </head>
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
           {children}
