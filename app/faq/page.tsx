@@ -3,8 +3,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
-import type { FAQ } from "@/lib/types"
-import { FAQClient } from "./client"
 import type { FaqItem } from "@/lib/types"
 
 export const metadata = {
@@ -34,19 +32,17 @@ export default async function FaqPage() {
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
       <main className="flex-1">
-        <section className="bg-muted/30 px-6 py-16 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-foreground">Frequently Asked Questions</h1>
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                Find answers to common questions about our team.
-              </p>
-            </div>
+        <section className="bg-sidebar px-6 py-16 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <h1 className="text-4xl font-bold text-sidebar-foreground">Frequently Asked Questions</h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Find answers to common questions about Team Chetak ATOMY
+            </p>
           </div>
         </section>
 
         <section className="px-6 py-16 lg:px-8">
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-4xl">
             {faqs.length > 0 ? (
               <div className="space-y-8">
                 {Object.entries(groupedFaqs).map(([category, items]) => (
@@ -66,7 +62,7 @@ export default async function FaqPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
+              <div className="text-center py-16 bg-muted/30 rounded-lg">
                 <HelpCircle className="mx-auto h-16 w-16 text-muted-foreground/50" />
                 <h3 className="mt-4 text-lg font-medium text-foreground">No FAQs yet</h3>
                 <p className="mt-2 text-muted-foreground">Check back soon or contact us with your questions!</p>

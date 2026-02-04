@@ -6,7 +6,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import type { DownloadableFile } from "@/lib/types"
-import { DownloadsClient } from "./client"
 
 export default async function DownloadsPage() {
   const supabase = await getSupabaseServerClient()

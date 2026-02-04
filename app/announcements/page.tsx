@@ -5,7 +5,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import type { Announcement } from "@/lib/types"
-import { AnnouncementsClient } from "./client"
 
 export const metadata = {
   title: "Announcements | Team Chetak ATOMY",

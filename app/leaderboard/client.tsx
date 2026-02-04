@@ -9,14 +9,15 @@ import type { MonthlyAward } from "@/lib/types"
 import { Trophy, Medal, Star, Crown, Users, Award, Calendar } from "lucide-react"
 
 interface LeaderboardClientProps {
-  monthlyAwards: MonthlyAward[]
-  yearlyAwards: MonthlyAward[]
+  awards: MonthlyAward[]
   currentMonth: number
   currentYear: number
 }
 
-export function LeaderboardClient({ monthlyAwards, yearlyAwards, currentMonth, currentYear }: LeaderboardClientProps) {
+export function LeaderboardClient({ awards, currentMonth, currentYear }: LeaderboardClientProps) {
   const { t } = useLanguage()
+  const monthlyAwards = awards.filter(award => award.month === currentMonth && award.year === currentYear);
+  const yearlyAwards = awards.filter(award => award.year === currentYear);
 
   const getRankBadge = (rank: number) => {
     switch (rank) {

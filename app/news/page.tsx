@@ -4,8 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
-import type { NewsArticle } from "@/lib/types"
-import { NewsClient } from "./client"
 import type { NewsPost } from "@/lib/types"
 
 export const metadata = {
