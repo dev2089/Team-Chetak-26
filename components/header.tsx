@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/lib/language-context"
 import { languages } from "@/lib/translations"
+import { NotificationBell } from "@/components/notification-bell"
 
 const WHATSAPP_NUMBER = "916376476075"
 
@@ -196,6 +197,7 @@ export function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-2">
           {mounted && (
             <>
+              <NotificationBell />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="gap-2">

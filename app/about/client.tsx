@@ -1,24 +1,15 @@
-'use client';
+"use client"
 
-import { CardTitle } from "@/components/ui/card"
-import { CardHeader } from "@/components/ui/card"
-import { CardContent } from "@/components/ui/card"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { AboutClient } from "./client"
-import { useLanguage } from "@/hooks/useLanguage"
-import { Target, Heart, Zap, Eye, Users, IndianRupee, Plane, UserPlus, TrendingUp } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
 import Image from "next/image"
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
+import Link from "next/link"
+import { Target, Eye, Heart, Zap, Users, TrendingUp, Award, UserPlus, IndianRupee, Plane } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
-export const metadata = {
-  title: "About Us | Team Chetak ATOMY",
-  description: "Learn about Team Chetak's mission to create financial freedom through ATOMY network marketing",
-}
-
-export default function AboutPage() {
+export function AboutClient() {
   const { t } = useLanguage()
 
   const values = [

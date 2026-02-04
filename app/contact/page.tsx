@@ -1,5 +1,6 @@
 "use client"
 
+import { useLanguage } from "@/lib/language-context"
 import type React from "react"
 
 import { useState } from "react"
@@ -18,6 +19,7 @@ const WHATSAPP_NUMBER = "916376476075"
 const EMAIL = "devanshu2089@gmail.com"
 
 export default function ContactPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +44,7 @@ export default function ContactPage() {
       setIsSubmitted(true)
       setFormData({ name: "", email: "", subject: "", message: "" })
     } catch {
-      setError("Failed to send message. Please try again.")
+      setError(t("message_error") || "Failed to send message. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
@@ -55,10 +57,9 @@ export default function ContactPage() {
         <section className="bg-sidebar px-6 py-16 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-sidebar-foreground">Contact Us</h1>
+              <h1 className="text-4xl font-bold text-sidebar-foreground">{t("contact_us") || "Contact Us"}</h1>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                Have questions about ATOMY or want to join Team Chetak? We would be delighted to assist you on your
-                journey to financial freedom.
+                {t("contact_desc") || "Have questions about ATOMY or want to join Team Chetak?"}
               </p>
             </div>
           </div>
@@ -69,10 +70,9 @@ export default function ContactPage() {
             <div className="grid gap-12 lg:grid-cols-2">
               {/* Contact Info */}
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-6">Get in Touch</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-6">{t("get_in_touch") || "Get in Touch"}</h2>
                 <p className="text-muted-foreground mb-8">
-                  Connect with us through any of the following channels. Our team is available to answer your questions
-                  about ATOMY products, business opportunities, and how to get started.
+                  {t("contact_info_desc") || "Connect with us through any channel. Our team is available to help."}
                 </p>
 
                 <div className="space-y-6">
@@ -82,7 +82,7 @@ export default function ContactPage() {
                         <Mail className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Email</p>
+                        <p className="text-sm text-muted-foreground">{t("email") || "Email"}</p>
                         <a href={`mailto:${EMAIL}`} className="font-medium text-foreground hover:text-primary">
                           {EMAIL}
                         </a>
@@ -96,7 +96,7 @@ export default function ContactPage() {
                         <Phone className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Phone</p>
+                        <p className="text-sm text-muted-foreground">{t("phone") || "Phone"}</p>
                         <a href={`tel:${PHONE_NUMBER}`} className="font-medium text-foreground hover:text-primary">
                           {PHONE_NUMBER}
                         </a>
@@ -110,11 +110,11 @@ export default function ContactPage() {
                         <MessageCircle className="h-6 w-6 text-green-500" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">WhatsApp (Preferred)</p>
+                        <p className="text-sm text-muted-foreground">{t("whatsapp_preferred") || "WhatsApp"}</p>
                         <p className="font-medium text-foreground">{PHONE_NUMBER}</p>
                       </div>
                       <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
-                        <Button className="bg-green-600 hover:bg-green-700">Chat Now</Button>
+                        <Button className="bg-green-600 hover:bg-green-700">{t("chat_now") || "Chat Now"}</Button>
                       </a>
                     </CardContent>
                   </Card>
@@ -125,54 +125,47 @@ export default function ContactPage() {
                         <MapPin className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Location</p>
-                        <p className="font-medium text-foreground">India (Pan India Network)</p>
+                        <p className="text-sm text-muted-foreground">{t("location") || "Location"}</p>
+                        <p className="font-medium text-foreground">{t("pan_india") || "India (Pan India)"}</p>
                       </div>
                     </CardContent>
                   </Card>
-                </div>
-
-                <div className="mt-8 p-4 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-sm text-muted-foreground">
-                    <strong className="text-foreground">Response Time:</strong> We typically respond within 24 hours.
-                    For urgent inquiries, please contact us via WhatsApp for faster assistance.
-                  </p>
                 </div>
               </div>
 
               {/* Contact Form */}
               <Card className="border-border">
                 <CardHeader>
-                  <CardTitle>Send us a Message</CardTitle>
-                  <CardDescription>Fill out the form below and our team will get back to you promptly.</CardDescription>
+                  <CardTitle>{t("send_message") || "Send Message"}</CardTitle>
+                  <CardDescription>{t("contact_form_desc") || "Fill out the form and we'll respond within 24 hours"}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {isSubmitted ? (
                     <div className="text-center py-8">
                       <CheckCircle className="mx-auto h-16 w-16 text-green-500" />
-                      <h3 className="mt-4 text-lg font-medium text-foreground">Message Sent Successfully!</h3>
+                      <h3 className="mt-4 text-lg font-medium text-foreground">{t("message_sent") || "Message Sent!"}</h3>
                       <p className="mt-2 text-muted-foreground">
-                        Thank you for reaching out. Our team will review your message and respond within 24 hours.
+                        {t("message_sent_desc") || "Thank you for reaching out. We'll respond within 24 hours."}
                       </p>
                       <Button variant="outline" className="mt-6 bg-transparent" onClick={() => setIsSubmitted(false)}>
-                        Send Another Message
+                        {t("send_another") || "Send Another"}
                       </Button>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="name">Full Name *</Label>
+                          <Label htmlFor="name">{t("full_name") || "Full Name"} *</Label>
                           <Input
                             id="name"
                             required
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="Enter your full name"
+                            placeholder={t("enter_name") || "Your name"}
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">Email Address *</Label>
+                          <Label htmlFor="email">{t("email") || "Email"} *</Label>
                           <Input
                             id="email"
                             type="email"
@@ -184,23 +177,23 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="subject">Subject</Label>
+                        <Label htmlFor="subject">{t("subject") || "Subject"}</Label>
                         <Input
                           id="subject"
                           value={formData.subject}
                           onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                          placeholder="e.g., Inquiry about joining Team Chetak"
+                          placeholder={t("subject_placeholder") || "e.g., Inquiry about ATOMY"}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="message">Message *</Label>
+                        <Label htmlFor="message">{t("message") || "Message"} *</Label>
                         <Textarea
                           id="message"
                           required
                           rows={5}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          placeholder="Please share your questions or how we can assist you..."
+                          placeholder={t("message_placeholder") || "Your message..."}
                         />
                       </div>
 
@@ -212,10 +205,10 @@ export default function ContactPage() {
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? (
-                          "Sending..."
+                          t("sending") || "Sending..."
                         ) : (
                           <>
-                            Send Message <Send className="h-4 w-4" />
+                            {t("send_message") || "Send"} <Send className="h-4 w-4" />
                           </>
                         )}
                       </Button>

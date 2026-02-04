@@ -85,7 +85,11 @@ export default function LoginPage() {
           throw signInError
         }
 
-        router.push("/admin")
+        // Wait a moment for auth to complete
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        
+        // Use replace to prevent back button from going to login
+        router.replace("/admin")
         router.refresh()
       }
     } catch (err: unknown) {
