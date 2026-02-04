@@ -5,6 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import type { SuccessStory } from "@/lib/types"
+import { SuccessStoriesClient } from "./client"
 
 export default async function SuccessStoriesPage() {
   const supabase = await getSupabaseServerClient()

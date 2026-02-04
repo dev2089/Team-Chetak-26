@@ -1,5 +1,6 @@
 "use client"
 
+import { useLanguage } from "@/lib/language-context"
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Header } from "@/components/header"

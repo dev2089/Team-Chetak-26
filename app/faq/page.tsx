@@ -3,6 +3,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
+import type { FAQ } from "@/lib/types"
+import { FAQClient } from "./client"
 import type { FaqItem } from "@/lib/types"
 
 export const metadata = {

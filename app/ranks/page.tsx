@@ -4,6 +4,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import type { RankLevel } from "@/lib/types"
+import { RanksClient } from "./client"
 
 export default async function RanksPage() {
   const supabase = await getSupabaseServerClient()

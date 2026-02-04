@@ -85,8 +85,15 @@ export default function LoginPage() {
           throw signInError
         }
 
-        // Wait a moment for auth to complete
-        await new Promise((resolve) => setTimeout(resolve, 500))
+        // Wait longer for session to be established
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        
+        // Verify session was created
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        
+        if (sessionError || !session) {
+          throw new Error("Session could not be established. Please try again.")
+        }
         
         // Use replace to prevent back button from going to login
         router.replace("/admin")

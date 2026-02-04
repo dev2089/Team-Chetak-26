@@ -6,6 +6,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import type { TrainingResource } from "@/lib/types"
+import { TrainingPageClient } from "./client"
 
 export default async function TrainingPage() {
   const supabase = await getSupabaseServerClient()

@@ -1,5 +1,6 @@
 "use client"
 
+import { useLanguage } from "@/lib/language-context"
 import type React from "react"
 import { useState } from "react"
 import { Send, Star, MessageSquare } from "lucide-react"
