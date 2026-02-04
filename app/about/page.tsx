@@ -30,7 +30,7 @@ export default function AboutPage() {
 
   const stats = [
     { value: "5,000+", label: t("team_members") || "Team Members", icon: Users },
-    { value: "₹10 L", label: t("monthly_target") || "Monthly Target", icon: Target },
+    { value: "₹1 Cr", label: t("monthly_target") || "Monthly Target", icon: Target },
     { value: "14", label: t("income_streams") || "Income Streams", icon: IndianRupee },
     { value: "3", label: t("yearly_trips") || "Yearly Trips", icon: Plane },
   ]
