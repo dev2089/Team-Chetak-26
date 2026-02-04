@@ -49,6 +49,7 @@ export default async function AdminDashboardPage() {
       <div>
         <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
         <p className="text-muted-foreground mt-1">Welcome to Team Chetak ATOMY Admin Dashboard</p>
+        <p className="text-muted-foreground mt-1">Convert file to URL for ease</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
