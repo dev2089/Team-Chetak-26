@@ -1,5 +1,6 @@
 import { Users, Calendar, Newspaper, Mail, Star, ImageIcon, UserPlus, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 
 export default async function AdminDashboardPage() {
@@ -115,8 +116,4 @@ export default async function AdminDashboardPage() {
       </Card>
     </div>
   )
-}
-
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ")
 }
