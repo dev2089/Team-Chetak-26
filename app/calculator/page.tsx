@@ -1,6 +1,5 @@
 "use client"
 
-import { useLanguage } from "@/lib/language-context"
 import { useState } from "react"
 import { Plus, Trash2, Calculator, IndianRupee, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -17,7 +16,6 @@ interface ProductItem {
 }
 
 export default function CalculatorPage() {
-  const { t } = useLanguage()
   const [items, setItems] = useState<ProductItem[]>([{ id: "1", product: "", price: 0, quantity: 1 }])
 
   const addItem = () => {
@@ -53,9 +51,10 @@ export default function CalculatorPage() {
       <main className="flex-1">
         <section className="bg-sidebar px-6 py-16 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-4xl font-bold text-sidebar-foreground">{t("order_calculator") || "Order Calculator"}</h1>
+            <h1 className="text-4xl font-bold text-sidebar-foreground">Order Calculator</h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              {t("calculator_desc") || "Calculate your ATOMY order total easily. Add products, enter prices and quantities to get the final amount."}
+              Calculate your ATOMY order total easily. Add products, enter prices and quantities to get the final
+              amount.
             </p>
           </div>
         </section>
@@ -67,12 +66,12 @@ export default function CalculatorPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center gap-2">
-                      <Calculator className="h-5 w-5 text-primary" /> {t("product_calculator") || "Product Calculator"}
+                      <Calculator className="h-5 w-5 text-primary" /> Product Calculator
                     </CardTitle>
-                    <CardDescription>{t("add_products_calc") || "Add your products below to calculate the total order amount"}</CardDescription>
+                    <CardDescription>Add your products below to calculate the total order amount</CardDescription>
                   </div>
                   <Button variant="outline" size="sm" onClick={clearAll}>
-                    {t("clear_all") || "Clear All"}
+                    Clear All
                   </Button>
                 </div>
               </CardHeader>

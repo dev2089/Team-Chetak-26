@@ -1,6 +1,5 @@
 "use client"
 
-import { useLanguage } from "@/lib/language-context"
 import { useState, useEffect } from "react"
 import { ImageIcon, X } from "lucide-react"
 import { Card } from "@/components/ui/card"

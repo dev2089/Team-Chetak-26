@@ -71,7 +71,7 @@ export default function LoginPage() {
         setMode("login")
         setPassword("")
       } else {
-        const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        const { error: signInError } = await supabase.auth.signInWithPassword({
           email: normalizedEmail,
           password,
         })
@@ -85,12 +85,7 @@ export default function LoginPage() {
           throw signInError
         }
 
-        if (!data.session) {
-          throw new Error("Login successful but session not found. Please try again.")
-        }
-
-        // Session is ready, navigate immediately
-        router.replace("/admin")
+        router.push("/admin")
         router.refresh()
       }
     } catch (err: unknown) {
