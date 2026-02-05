@@ -29,21 +29,25 @@ import {
 } from "@/components/ui/alert-dialog"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import type { DirectoryMember } from "@/lib/types"
-import type { TeamMember } from "@/lib/types"
+import type { TeamMember } from "@/lib/types" // Declare the TeamMember variable
 
 export default function AdminMemberDirectoryPage() {
-  const [members, setMembers] = useState<TeamMember[]>([])
+  const [members, setMembers] = useState<DirectoryMember[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null)
   const [formData, setFormData] = useState({
     name: "",
-    role: "",
-    bio: "",
-    image_url: "",
+    title: "",
+    department: "",
     email: "",
+    phone: "",
+    image_url: "",
+    bio: "",
     linkedin_url: "",
+    atomy_id: "",
+    rank: "",
     is_active: true,
   })
   const [submitting, setSubmitting] = useState(false)
