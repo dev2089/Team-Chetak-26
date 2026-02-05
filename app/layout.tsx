@@ -42,6 +42,7 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="NqDtQZA4mgeNnfo0-b7BCsn8-O25HQ1aaMr2z7KtTDY" />
+        <meta name="google-adsense-account" content="ca-pub-2026937791260614"/>
       </head>
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
