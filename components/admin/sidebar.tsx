@@ -49,6 +49,7 @@ const navigation = [
   { name: "Success Stories", href: "/admin/stories", icon: Star },
   { name: "Rank Levels", href: "/admin/ranks", icon: Award },
   { name: "Downloads", href: "/admin/downloads", icon: Download },
+  { name: "Member Directory", href: "/admin/directory", icon: Users },
   { name: "Team Members", href: "/admin/team", icon: Users },
   { name: "Events", href: "/admin/events", icon: Calendar },
   { name: "News", href: "/admin/news", icon: Newspaper },
