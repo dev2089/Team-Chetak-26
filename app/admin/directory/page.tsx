@@ -28,11 +28,10 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
-import type { DirectoryMember } from "@/lib/types"
-import type { TeamMember } from "@/lib/types" // Declare the TeamMember variable
+import type { DirectoryMember, TeamMember } from "@/lib/types"
 
 export default function AdminMemberDirectoryPage() {
-  const [members, setMembers] = useState<DirectoryMember[]>([])
+  const [members, setMembers] = useState<TeamMember[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
