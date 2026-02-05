@@ -12,6 +12,24 @@ export interface TeamMember {
   updated_at: string
 }
 
+export interface DirectoryMember {
+  id: string
+  name: string
+  title: string | null
+  department: string | null
+  email: string | null
+  phone: string | null
+  image_url: string | null
+  bio: string | null
+  linkedin_url: string | null
+  atomy_id: string | null
+  rank: string | null
+  is_active: boolean
+  display_order: number
+  created_at: string
+  updated_at: string
+}
+
 export interface Event {
   id: string
   title: string

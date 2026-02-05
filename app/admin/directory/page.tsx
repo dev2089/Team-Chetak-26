@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Plus, Pencil, Trash2, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -29,9 +28,10 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+import type { DirectoryMember } from "@/lib/types"
 import type { TeamMember } from "@/lib/types"
 
-export default function AdminDirectoryPage() {
+export default function AdminMemberDirectoryPage() {
   const [members, setMembers] = useState<TeamMember[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -48,9 +48,15 @@ export default function AdminDirectoryPage() {
   })
   const [submitting, setSubmitting] = useState(false)
 
+  const supabase = getSupabaseBrowserClient()
+
+  useEffect(() => {
+    fetchMembers()
+  }, [])
+
   const fetchMembers = async () => {
     try {
-      const supabase = getSupabaseBrowserClient()
+      setLoading(true)
       const { data, error } = await supabase
         .from("team_members")
         .select("*")
@@ -64,10 +70,6 @@ export default function AdminDirectoryPage() {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    fetchMembers()
-  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -102,10 +104,7 @@ export default function AdminDirectoryPage() {
     setSubmitting(true)
 
     try {
-      const supabase = getSupabaseBrowserClient()
-
       if (editingMember) {
-        // Update existing member
         const { error } = await supabase
           .from("team_members")
           .update(formData)
@@ -114,7 +113,6 @@ export default function AdminDirectoryPage() {
         if (error) throw error
         console.log("[v0] Member updated successfully")
       } else {
-        // Create new member
         const { error } = await supabase.from("team_members").insert([
           {
             ...formData,
@@ -152,7 +150,6 @@ export default function AdminDirectoryPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const supabase = getSupabaseBrowserClient()
       const { error } = await supabase.from("team_members").delete().eq("id", id)
 
       if (error) throw error
