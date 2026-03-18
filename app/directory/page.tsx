@@ -1,15 +1,16 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { Users, Search, MapPin, MessageCircle } from "lucide-react"
+import { Users, Search, MapPin, MessageCircle, Loader } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
+import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+import type { TeamMember } from "@/lib/types"
 
 const WHATSAPP_NUMBER = "916376476075"
-
-// Sample member directory data - in production this would come from database
-const sampleMembers = [
-]
 
 const states = [
   "All States",
@@ -41,6 +42,74 @@ const ranks = [
 ]
 
 export default function DirectoryPage() {
+  const [members, setMembers] = useState<TeamMember[]>([])
+  const [filteredMembers, setFilteredMembers] = useState<TeamMember[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedState, setSelectedState] = useState("All States")
+  const [selectedRank, setSelectedRank] = useState("All Ranks")
+
+  const supabase = getSupabaseBrowserClient()
+
+  useEffect(() => {
+    fetchMembers()
+  }, [])
+
+  const fetchMembers = async () => {
+    try {
+      setLoading(true)
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("*")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true })
+
+      if (error) throw error
+      setMembers(data || [])
+      setFilteredMembers(data || [])
+    } catch (error) {
+      console.error("[v0] Error fetching members:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value)
+    filterMembers(value, selectedState, selectedRank)
+  }
+
+  const handleStateChange = (state: string) => {
+    setSelectedState(state)
+    filterMembers(searchTerm, state, selectedRank)
+  }
+
+  const handleRankChange = (rank: string) => {
+    setSelectedRank(rank)
+    filterMembers(searchTerm, selectedState, rank)
+  }
+
+  const filterMembers = (search: string, state: string, rank: string) => {
+    let filtered = members
+
+    if (search) {
+      filtered = filtered.filter((m) =>
+        m.name?.toLowerCase().includes(search.toLowerCase()) ||
+        m.atomy_id?.includes(search)
+      )
+    }
+
+    if (state !== "All States") {
+      filtered = filtered.filter((m) => m.department === state)
+    }
+
+    if (rank !== "All Ranks") {
+      filtered = filtered.filter((m) => m.rank === rank)
+    }
+
+    setFilteredMembers(filtered)
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
@@ -64,17 +133,30 @@ export default function DirectoryPage() {
               <div className="md:col-span-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search by name or ATOMY ID..." className="pl-10 bg-card border-border" />
+                  <Input 
+                    placeholder="Search by name or ATOMY ID..." 
+                    className="pl-10 bg-card border-border"
+                    value={searchTerm}
+                    onChange={(e) => handleSearch(e.target.value)}
+                  />
                 </div>
               </div>
-              <select className="px-4 py-2 rounded-lg bg-card border border-border text-foreground">
+              <select 
+                className="px-4 py-2 rounded-lg bg-card border border-border text-foreground"
+                value={selectedState}
+                onChange={(e) => handleStateChange(e.target.value)}
+              >
                 {states.map((state) => (
                   <option key={state} value={state}>
                     {state}
                   </option>
                 ))}
               </select>
-              <select className="px-4 py-2 rounded-lg bg-card border border-border text-foreground">
+              <select 
+                className="px-4 py-2 rounded-lg bg-card border border-border text-foreground"
+                value={selectedRank}
+                onChange={(e) => handleRankChange(e.target.value)}
+              >
                 {ranks.map((rank) => (
                   <option key={rank} value={rank}>
                     {rank}
@@ -112,45 +194,67 @@ export default function DirectoryPage() {
         {/* Members Grid */}
         <section className="py-12">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {sampleMembers.map((member) => (
-                <Card key={member.id} className="bg-card border-border hover:border-primary/50 transition-colors">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xl font-bold">
-                        {member.name.charAt(0)}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">{member.name}</h3>
-                        <p className="text-sm text-primary">{member.rank}</p>
-                      </div>
-                    </div>
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        {member.location}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4" />
-                        Member since {member.joinDate}
-                      </div>
-                    </div>
-                    {member.isLeader && (
-                      <span className="inline-block mt-3 px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">
-                        Team Leader
-                      </span>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Load More */}
-            <div className="mt-8 text-center">
-              <Button variant="outline" className="bg-transparent border-border">
-                Load More Members
-              </Button>
-            </div>
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : filteredMembers.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground text-lg">No members found matching your criteria</p>
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {filteredMembers.map((member) => (
+                    <Card key={member.id} className="bg-card border-border hover:border-primary/50 transition-colors">
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-4 mb-4">
+                          {member.image_url ? (
+                            <img
+                              src={member.image_url}
+                              alt={member.name}
+                              className="w-14 h-14 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xl font-bold">
+                              {member.name?.charAt(0)}
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="font-semibold text-foreground">{member.name}</h3>
+                            <p className="text-sm text-primary">{member.rank}</p>
+                          </div>
+                        </div>
+                        <div className="space-y-2 text-sm text-muted-foreground">
+                          {member.department && (
+                            <div className="flex items-center gap-2">
+                              <MapPin className="h-4 w-4" />
+                              {member.department}
+                            </div>
+                          )}
+                          {member.title && (
+                            <div className="flex items-center gap-2">
+                              <Users className="h-4 w-4" />
+                              {member.title}
+                            </div>
+                          )}
+                        </div>
+                        {member.linkedin_url && (
+                          <a
+                            href={member.linkedin_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block mt-3 px-2 py-1 bg-primary/20 text-primary text-xs rounded-full hover:bg-primary/30"
+                          >
+                            LinkedIn
+                          </a>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </section>
 

@@ -69,6 +69,7 @@ export function Header() {
     { name: t("ranks"), href: "/ranks", icon: Award },
     { name: t("downloads"), href: "/downloads", icon: Download },
     { name: t("calculator"), href: "/calculator", icon: Calculator },
+    { name: "User Guide", href: "/user-guide", icon: BookOpen },
   ]
 
   const moreDropdown = [

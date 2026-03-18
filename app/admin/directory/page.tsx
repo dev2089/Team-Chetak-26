@@ -61,7 +61,7 @@ export default function AdminMemberDirectoryPage() {
     try {
       setLoading(true)
       const { data, error } = await supabase
-        .from("directory_members")
+        .from("team_members")
         .select("*")
         .order("display_order", { ascending: true })
 
@@ -120,7 +120,7 @@ export default function AdminMemberDirectoryPage() {
     try {
       if (editingMember) {
         const { error } = await supabase
-          .from("directory_members")
+          .from("team_members")
           .update({
             ...formData,
             updated_at: new Date().toISOString(),
@@ -130,7 +130,7 @@ export default function AdminMemberDirectoryPage() {
         if (error) throw error
       } else {
         const { error } = await supabase
-          .from("directory_members")
+          .from("team_members")
           .insert([
             {
               ...formData,
@@ -156,7 +156,7 @@ export default function AdminMemberDirectoryPage() {
 
     try {
       const { error } = await supabase
-        .from("directory_members")
+        .from("team_members")
         .delete()
         .eq("id", deleteId)
 
@@ -171,7 +171,7 @@ export default function AdminMemberDirectoryPage() {
   const handleToggleActive = async (member: DirectoryMember) => {
     try {
       const { error } = await supabase
-        .from("directory_members")
+        .from("team_members")
         .update({ is_active: !member.is_active })
         .eq("id", member.id)
 

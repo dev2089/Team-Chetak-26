@@ -26,9 +26,17 @@ export function AppDownloadPopup() {
   }, [hasShown])
 
   const handleDownload = () => {
-    // Trigger download - you can replace this URL with your actual app download link
-    const downloadUrl = "/app-download" // This should link to your actual APK or IPA
-    window.location.href = downloadUrl
+    // Create a downloadable file (in production, replace with actual APK/IPA URL)
+    const downloadUrl = process.env.NEXT_PUBLIC_APP_DOWNLOAD_URL || 
+      "https://example.com/team-chetak-app.apk" // Replace with your actual download link
+    
+    // If it's a web link, open in new tab
+    if (downloadUrl.startsWith("http")) {
+      window.open(downloadUrl, "_blank")
+    } else {
+      // If it's a local file, trigger download
+      window.location.href = downloadUrl
+    }
     setIsOpen(false)
   }
 
