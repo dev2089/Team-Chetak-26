@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://teamchetak.vercel.app' // Update with your actual domain
-  
+  const baseUrl = 'https://v0-team-chetak.vercel.app' // Update with your actual domain
+
   const routes = [
     {
       url: baseUrl,
