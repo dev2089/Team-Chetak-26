@@ -38,6 +38,9 @@ import { useState, useEffect } from "react"
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Member Signups", href: "/admin/signups", icon: UserPlus },
+  { name: "Members Directory", href: "/admin/directory", icon: Users },
+  { name: "App Updates", href: "/admin/app-updates", icon: Bell },
+  { name: "User Guide", href: "/admin/user-guide", icon: BookOpen },
   { name: "Feedback", href: "/admin/feedback", icon: MessageSquare },
   { name: "Push Notifications", href: "/admin/notifications", icon: Bell },
   { name: "Live Chat", href: "/admin/chat", icon: MessageCircle },
@@ -49,7 +52,6 @@ const navigation = [
   { name: "Success Stories", href: "/admin/stories", icon: Star },
   { name: "Rank Levels", href: "/admin/ranks", icon: Award },
   { name: "Downloads", href: "/admin/downloads", icon: Download },
-  { name: "Members Directory", href: "/admin/directory", icon: Users },
   { name: "Team Leaders", href: "/admin/team", icon: Users },
   { name: "Events", href: "/admin/events", icon: Calendar },
   { name: "News", href: "/admin/news", icon: Newspaper },

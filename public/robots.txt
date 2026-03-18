@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /api
+Disallow: /*.json$
+
+Sitemap: https://teamchetak.vercel.app/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Allow specific crawlers
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Crawl delay for slower crawlers
+User-agent: *
+Crawl-delay: 1

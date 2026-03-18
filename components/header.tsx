@@ -69,12 +69,14 @@ export function Header() {
     { name: t("ranks"), href: "/ranks", icon: Award },
     { name: t("downloads"), href: "/downloads", icon: Download },
     { name: t("calculator"), href: "/calculator", icon: Calculator },
+    { name: "User Guide", href: "/user-guide", icon: BookOpen },
   ]
 
   const moreDropdown = [
     { name: t("events"), href: "/events", icon: Calendar },
     { name: t("announcements"), href: "/announcements", icon: Megaphone },
     { name: t("attendance"), href: "/attendance", icon: ClipboardCheck },
+    { name: "Member Directory", href: "/member-directory", icon: Users },
     { name: t("directory"), href: "/directory", icon: Users },
     { name: t("dashboard"), href: "/dashboard", icon: BarChart3 },
     { name: t("feedback"), href: "/feedback", icon: MessageSquare },
@@ -127,7 +129,7 @@ export function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
-            <Image src="/images/logo.png" alt="Team Chetak" width={48} height={48} className="rounded-lg" />
+            <Image src="/images/logo.png" alt="Team Chetak" width={48} height={48} className="rounded-lg w-12 h-12" />
             <div className="hidden sm:block">
               <span className="text-lg font-bold text-primary">{t("team_chetak")}</span>
               <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>
@@ -195,32 +197,30 @@ export function Header() {
 
         {/* Desktop right side */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-2">
-          {mounted && (
-            <>
-              <NotificationBell />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
-                    <Globe className="h-4 w-4" />
-                    <span>{currentLang?.nativeName}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      onClick={() => handleLanguageChange(lang.code)}
-                      className={language === lang.code ? "bg-primary/10" : ""}
-                    >
-                      {lang.nativeName}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          <NotificationBell />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Globe className="h-4 w-4" />
+                <span suppressHydrationWarning>{currentLang?.nativeName}</span>
               </Button>
-            </>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {languages.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  className={language === lang.code ? "bg-primary/10" : ""}
+                >
+                  {lang.nativeName}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {mounted && (
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
           )}
           <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
             <Button
@@ -255,7 +255,7 @@ export function Header() {
             {/* Sidebar Header */}
             <div className="flex-shrink-0 p-4 border-b border-border flex items-center justify-between">
               <Link href="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
-                <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg" />
+                <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
                 <div>
                   <span className="text-lg font-bold text-primary">{t("team_chetak")}</span>
                   <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { UserPlus, CheckCircle, Trash2, Mail, Phone, Calendar, Hash, Search } from "lucide-react"
+import { UserPlus, CheckCircle, Trash2, Mail, Phone, Calendar, Hash, Search, UserCheck } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ export function SignupsContent() {
   const [signups, setSignups] = useState<UserSignup[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const [addingToDirectory, setAddingToDirectory] = useState<string | null>(null)
 
   const fetchSignups = async () => {
     const supabase = getSupabaseBrowserClient()
@@ -29,6 +30,39 @@ export function SignupsContent() {
     const supabase = getSupabaseBrowserClient()
     await supabase.from("user_signups").update({ is_reviewed: true }).eq("id", id)
     fetchSignups()
+  }
+
+  const addToDirectory = async (signup: UserSignup) => {
+    setAddingToDirectory(signup.id)
+    try {
+      const supabase = getSupabaseBrowserClient()
+      const { error } = await supabase.from("member_directory").insert({
+        full_name: signup.full_name,
+        job_title: signup.job_title || null,
+        department: signup.department || null,
+        rank: signup.rank || null,
+        email: signup.email,
+        phone: signup.phone || null,
+        atomy_id: signup.atomy_id || null,
+        image_url: signup.image_url || null,
+        linkedin_url: signup.linkedin_url || null,
+        bio: signup.bio || null,
+        is_active: true,
+        display_order: 0,
+      })
+
+      if (error) throw error
+
+      // Mark as reviewed after adding to directory
+      await supabase.from("user_signups").update({ is_reviewed: true }).eq("id", signup.id)
+      fetchSignups()
+      alert("Successfully added to member directory!")
+    } catch (err) {
+      console.error("Error adding to directory:", err)
+      alert("Failed to add to directory. Please try again.")
+    } finally {
+      setAddingToDirectory(null)
+    }
   }
 
   const deleteSignup = async (id: string) => {
@@ -97,7 +131,7 @@ export function SignupsContent() {
             >
               <CardContent className="pt-6">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div className="space-y-3">
+                  <div className="space-y-3 flex-1">
                     <div className="flex items-center gap-3">
                       <h3 className="text-lg font-semibold text-foreground">{signup.full_name}</h3>
                       {!signup.is_reviewed && (
@@ -138,8 +172,63 @@ export function SignupsContent() {
                         })}
                       </div>
                     </div>
+
+                    {/* Expanded Profile Information */}
+                    {(signup.job_title || signup.department || signup.rank || signup.bio || signup.image_url || signup.linkedin_url) && (
+                      <div className="border-t border-border pt-4 mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                        {signup.job_title && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Job Title</p>
+                            <p className="text-foreground">{signup.job_title}</p>
+                          </div>
+                        )}
+                        {signup.department && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Department</p>
+                            <p className="text-foreground">{signup.department}</p>
+                          </div>
+                        )}
+                        {signup.rank && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Rank</p>
+                            <p className="text-foreground">{signup.rank}</p>
+                          </div>
+                        )}
+                        {signup.bio && (
+                          <div className="sm:col-span-2">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Bio</p>
+                            <p className="text-foreground line-clamp-2">{signup.bio}</p>
+                          </div>
+                        )}
+                        {signup.image_url && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Image URL</p>
+                            <a href={signup.image_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all text-xs">
+                              View Image
+                            </a>
+                          </div>
+                        )}
+                        {signup.linkedin_url && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">LinkedIn</p>
+                            <a href={signup.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all text-xs">
+                              LinkedIn Profile
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => addToDirectory(signup)}
+                      disabled={addingToDirectory === signup.id}
+                      className="gap-1 bg-blue-600 hover:bg-blue-700"
+                    >
+                      <UserCheck className="h-4 w-4" />
+                      {addingToDirectory === signup.id ? "Adding..." : "Add to Directory"}
+                    </Button>
                     {!signup.is_reviewed && (
                       <Button variant="outline" size="sm" onClick={() => markAsReviewed(signup.id)} className="gap-1">
                         <CheckCircle className="h-4 w-4" />
