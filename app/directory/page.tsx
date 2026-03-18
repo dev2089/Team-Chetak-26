@@ -58,17 +58,29 @@ export default function DirectoryPage() {
   const fetchMembers = async () => {
     try {
       setLoading(true)
-      const { data, error } = await supabase
+      console.log("[v0] Fetching team_members from database...")
+      
+      // Force fresh client instance to avoid cache issues
+      const freshSupabase = getSupabaseBrowserClient()
+      const { data, error } = await freshSupabase
         .from("team_members")
         .select("*")
         .eq("is_active", true)
         .order("display_order", { ascending: true })
 
-      if (error) throw error
+      if (error) {
+        console.error("[v0] Supabase error:", error)
+        throw error
+      }
+      
+      console.log("[v0] Successfully fetched members:", data?.length || 0)
       setMembers(data || [])
       setFilteredMembers(data || [])
-    } catch (error) {
+    } catch (error: any) {
       console.error("[v0] Error fetching members:", error)
+      // Don't block UI on error, just show empty state
+      setMembers([])
+      setFilteredMembers([])
     } finally {
       setLoading(false)
     }

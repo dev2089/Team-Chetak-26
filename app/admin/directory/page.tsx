@@ -28,25 +28,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
-import type { DirectoryMember } from "@/lib/types"
+import type { TeamMember } from "@/lib/types"
 
 export default function AdminMemberDirectoryPage() {
-  const [members, setMembers] = useState<DirectoryMember[]>([])
+  const [members, setMembers] = useState<TeamMember[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
-  const [editingMember, setEditingMember] = useState<DirectoryMember | null>(null)
+  const [editingMember, setEditingMember] = useState<TeamMember | null>(null)
   const [formData, setFormData] = useState({
     name: "",
-    title: "",
-    department: "",
+    role: "",
     email: "",
-    phone: "",
     image_url: "",
     bio: "",
     linkedin_url: "",
-    atomy_id: "",
-    rank: "",
     is_active: true,
   })
   const [submitting, setSubmitting] = useState(false)
@@ -77,34 +73,26 @@ export default function AdminMemberDirectoryPage() {
   const resetForm = () => {
     setFormData({
       name: "",
-      title: "",
-      department: "",
+      role: "",
       email: "",
-      phone: "",
       image_url: "",
       bio: "",
       linkedin_url: "",
-      atomy_id: "",
-      rank: "",
       is_active: true,
     })
     setEditingMember(null)
   }
 
-  const handleOpenDialog = (member?: DirectoryMember) => {
+  const handleOpenDialog = (member?: TeamMember) => {
     if (member) {
       setEditingMember(member)
       setFormData({
         name: member.name,
-        title: member.title || "",
-        department: member.department || "",
+        role: member.role || "",
         email: member.email || "",
-        phone: member.phone || "",
         image_url: member.image_url || "",
         bio: member.bio || "",
         linkedin_url: member.linkedin_url || "",
-        atomy_id: member.atomy_id || "",
-        rank: member.rank || "",
         is_active: member.is_active,
       })
     } else {
@@ -206,7 +194,7 @@ export default function AdminMemberDirectoryPage() {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div>
+                <div className="col-span-2">
                   <Label htmlFor="name">Name *</Label>
                   <Input
                     id="name"
@@ -217,30 +205,12 @@ export default function AdminMemberDirectoryPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="title">Job Title</Label>
+                  <Label htmlFor="role">Role / Position</Label>
                   <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    id="role"
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     placeholder="e.g., Area Manager"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="department">Department</Label>
-                  <Input
-                    id="department"
-                    value={formData.department}
-                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    placeholder="e.g., Sales"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="rank">Rank</Label>
-                  <Input
-                    id="rank"
-                    value={formData.rank}
-                    onChange={(e) => setFormData({ ...formData, rank: e.target.value })}
-                    placeholder="e.g., Silver Member"
                   />
                 </div>
                 <div>
@@ -254,24 +224,6 @@ export default function AdminMemberDirectoryPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 XXXXX XXXXX"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="atomy_id">ATOMY ID</Label>
-                  <Input
-                    id="atomy_id"
-                    value={formData.atomy_id}
-                    onChange={(e) => setFormData({ ...formData, atomy_id: e.target.value })}
-                    placeholder="ATOMY ID"
-                  />
-                </div>
-                <div>
                   <Label htmlFor="image_url">Image URL</Label>
                   <Input
                     id="image_url"
@@ -280,15 +232,15 @@ export default function AdminMemberDirectoryPage() {
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
-              </div>
-              <div>
-                <Label htmlFor="linkedin_url">LinkedIn URL</Label>
-                <Input
-                  id="linkedin_url"
-                  value={formData.linkedin_url}
-                  onChange={(e) => setFormData({ ...formData, linkedin_url: e.target.value })}
-                  placeholder="https://linkedin.com/in/username"
-                />
+                <div>
+                  <Label htmlFor="linkedin_url">LinkedIn URL</Label>
+                  <Input
+                    id="linkedin_url"
+                    value={formData.linkedin_url}
+                    onChange={(e) => setFormData({ ...formData, linkedin_url: e.target.value })}
+                    placeholder="https://linkedin.com/in/username"
+                  />
+                </div>
               </div>
               <div>
                 <Label htmlFor="bio">Bio</Label>
@@ -344,15 +296,10 @@ export default function AdminMemberDirectoryPage() {
                     )}
                     <div className="flex-1">
                       <h3 className="font-semibold">{member.name}</h3>
-                      {member.title && <p className="text-sm text-muted-foreground">{member.title}</p>}
-                      {member.department && (
-                        <p className="text-xs text-muted-foreground">{member.department}</p>
-                      )}
-                      {member.rank && <p className="text-xs font-medium text-primary">{member.rank}</p>}
+                      {member.role && <p className="text-sm text-muted-foreground">{member.role}</p>}
                       {member.email && <p className="text-xs text-muted-foreground">{member.email}</p>}
-                      {member.phone && <p className="text-xs text-muted-foreground">{member.phone}</p>}
-                      {member.atomy_id && (
-                        <p className="text-xs text-muted-foreground">ID: {member.atomy_id}</p>
+                      {member.bio && (
+                        <p className="text-xs text-muted-foreground line-clamp-2">{member.bio}</p>
                       )}
                     </div>
                   </div>
