@@ -36,13 +36,17 @@ export function SignupsContent() {
     setAddingToDirectory(signup.id)
     try {
       const supabase = getSupabaseBrowserClient()
-      const { error } = await supabase.from("team_members").insert({
-        name: signup.full_name,
-        role: signup.job_title || "Team Member",
+      const { error } = await supabase.from("member_directory").insert({
+        full_name: signup.full_name,
+        job_title: signup.job_title || null,
+        department: signup.department || null,
+        rank: signup.rank || null,
         email: signup.email,
-        bio: signup.bio,
-        image_url: signup.image_url,
-        linkedin_url: signup.linkedin_url,
+        phone: signup.phone || null,
+        atomy_id: signup.atomy_id || null,
+        image_url: signup.image_url || null,
+        linkedin_url: signup.linkedin_url || null,
+        bio: signup.bio || null,
         is_active: true,
         display_order: 0,
       })

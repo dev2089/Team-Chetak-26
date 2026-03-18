@@ -30,6 +30,24 @@ export interface DirectoryMember {
   updated_at: string
 }
 
+export interface MemberDirectory {
+  id: string
+  full_name: string
+  job_title: string | null
+  department: string | null
+  rank: string | null
+  email: string
+  phone: string | null
+  atomy_id: string | null
+  image_url: string | null
+  linkedin_url: string | null
+  bio: string | null
+  is_active: boolean
+  display_order: number
+  created_at: string
+  updated_at: string
+}
+
 export interface Event {
   id: string
   title: string
