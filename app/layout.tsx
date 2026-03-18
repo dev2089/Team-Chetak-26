@@ -4,16 +4,69 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
-import { LiveChat } from "@/components/live-chat"
 import { LanguageProvider } from "@/lib/language-context"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#1a1a1a",
+}
+
 export const metadata: Metadata = {
-  title: "Team Chetak ATOMY | Never Give Up",
+  title: "Team Chetak ATOMY | Never Give Up - Financial Freedom Through Network Marketing",
   description:
-    "Join 5,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
+    "Join 5,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore. Access training, income sources, and success stories.",
+  keywords: [
+    "ATOMY",
+    "Team Chetak",
+    "Network Marketing",
+    "Financial Freedom",
+    "MLM",
+    "Income",
+    "Business Opportunity",
+    "Team Building",
+  ],
+  authors: [{ name: "Team Chetak ATOMY" }],
+  creator: "Team Chetak",
+  publisher: "Team Chetak ATOMY",
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
+  metadataBase: new URL("https://teamchetak.vercel.app"),
+  alternates: {
+    canonical: "https://teamchetak.vercel.app",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://teamchetak.vercel.app",
+    siteName: "Team Chetak ATOMY",
+    title: "Team Chetak ATOMY | Never Give Up",
+    description:
+      "Join 5,000+ team members achieving financial freedom through ATOMY network marketing. Monthly team target: ₹1 Crore.",
+    images: [
+      {
+        url: "/images/image.png",
+        width: 1200,
+        height: 630,
+        alt: "Team Chetak ATOMY",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Team Chetak ATOMY | Never Give Up",
+    description:
+      "Join 5,000+ team members achieving financial freedom through ATOMY network marketing.",
+    images: ["/images/image.png"],
+  },
   generator: "v0.app",
   icons: {
     icon: [
@@ -48,7 +101,6 @@ export default function RootLayout({
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
           {children}
-          <LiveChat />
         </LanguageProvider>
         <Analytics />
         <SpeedInsights />

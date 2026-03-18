@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { UserPlus, CheckCircle, Trash2, Mail, Phone, Calendar, Hash, Search } from "lucide-react"
+import { UserPlus, CheckCircle, Trash2, Mail, Phone, Calendar, Hash, Search, UserCheck } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ export function SignupsContent() {
   const [signups, setSignups] = useState<UserSignup[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const [addingToDirectory, setAddingToDirectory] = useState<string | null>(null)
 
   const fetchSignups = async () => {
     const supabase = getSupabaseBrowserClient()
@@ -29,6 +30,35 @@ export function SignupsContent() {
     const supabase = getSupabaseBrowserClient()
     await supabase.from("user_signups").update({ is_reviewed: true }).eq("id", id)
     fetchSignups()
+  }
+
+  const addToDirectory = async (signup: UserSignup) => {
+    setAddingToDirectory(signup.id)
+    try {
+      const supabase = getSupabaseBrowserClient()
+      const { error } = await supabase.from("team_members").insert({
+        name: signup.full_name,
+        role: signup.job_title || "Team Member",
+        email: signup.email,
+        bio: signup.bio,
+        image_url: signup.image_url,
+        linkedin_url: signup.linkedin_url,
+        is_active: true,
+        display_order: 0,
+      })
+
+      if (error) throw error
+
+      // Mark as reviewed after adding to directory
+      await supabase.from("user_signups").update({ is_reviewed: true }).eq("id", signup.id)
+      fetchSignups()
+      alert("Successfully added to member directory!")
+    } catch (err) {
+      console.error("Error adding to directory:", err)
+      alert("Failed to add to directory. Please try again.")
+    } finally {
+      setAddingToDirectory(null)
+    }
   }
 
   const deleteSignup = async (id: string) => {
@@ -139,7 +169,16 @@ export function SignupsContent() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => addToDirectory(signup)}
+                      disabled={addingToDirectory === signup.id}
+                      className="gap-1 bg-blue-600 hover:bg-blue-700"
+                    >
+                      <UserCheck className="h-4 w-4" />
+                      {addingToDirectory === signup.id ? "Adding..." : "Add to Directory"}
+                    </Button>
                     {!signup.is_reviewed && (
                       <Button variant="outline" size="sm" onClick={() => markAsReviewed(signup.id)} className="gap-1">
                         <CheckCircle className="h-4 w-4" />
