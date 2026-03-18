@@ -90,7 +90,7 @@ export function Footer() {
         </div>
         <div className="mt-8 border-t border-border pt-8 space-y-4">
           <p className="text-center text-sm text-muted-foreground">
-            © 2022 Team Chetak ATOMY. All rights reserved. | Never Give Up | Empowering India
+            © 2026 Team Chetak ATOMY. All rights reserved. | Never Give Up | Empowering India
           </p>
           <p className="text-center text-sm text-muted-foreground">
             Made with <span className="text-red-500">❤</span> by{" "}

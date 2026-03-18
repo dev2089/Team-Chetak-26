@@ -127,7 +127,7 @@ export function SignupsContent() {
             >
               <CardContent className="pt-6">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div className="space-y-3">
+                  <div className="space-y-3 flex-1">
                     <div className="flex items-center gap-3">
                       <h3 className="text-lg font-semibold text-foreground">{signup.full_name}</h3>
                       {!signup.is_reviewed && (
@@ -168,6 +168,52 @@ export function SignupsContent() {
                         })}
                       </div>
                     </div>
+
+                    {/* Expanded Profile Information */}
+                    {(signup.job_title || signup.department || signup.rank || signup.bio || signup.image_url || signup.linkedin_url) && (
+                      <div className="border-t border-border pt-4 mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                        {signup.job_title && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Job Title</p>
+                            <p className="text-foreground">{signup.job_title}</p>
+                          </div>
+                        )}
+                        {signup.department && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Department</p>
+                            <p className="text-foreground">{signup.department}</p>
+                          </div>
+                        )}
+                        {signup.rank && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Rank</p>
+                            <p className="text-foreground">{signup.rank}</p>
+                          </div>
+                        )}
+                        {signup.bio && (
+                          <div className="sm:col-span-2">
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Bio</p>
+                            <p className="text-foreground line-clamp-2">{signup.bio}</p>
+                          </div>
+                        )}
+                        {signup.image_url && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">Image URL</p>
+                            <a href={signup.image_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all text-xs">
+                              View Image
+                            </a>
+                          </div>
+                        )}
+                        {signup.linkedin_url && (
+                          <div>
+                            <p className="text-xs font-semibold text-muted-foreground uppercase">LinkedIn</p>
+                            <a href={signup.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-all text-xs">
+                              LinkedIn Profile
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button

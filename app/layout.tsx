@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
+import { AppDownloadPopup } from "@/components/app-download-popup"
+import { AppUpdatesPopup } from "@/components/app-updates-popup"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -101,6 +103,8 @@ export default function RootLayout({
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
           {children}
+          <AppDownloadPopup />
+          <AppUpdatesPopup />
         </LanguageProvider>
         <Analytics />
         <SpeedInsights />

@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { UserGuideBanner } from "@/components/user-guide-banner"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { useLanguage } from "@/lib/language-context"
 import type { TeamMember, Event, NewsPost, Testimonial, IncomeSource } from "@/lib/types"
@@ -145,6 +146,13 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* User Guide Banner */}
+        <section className="px-6 py-6 lg:px-8 bg-background">
+          <div className="mx-auto max-w-7xl">
+            <UserGuideBanner />
           </div>
         </section>
 
