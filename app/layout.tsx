@@ -5,7 +5,6 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
-import { AppDownloadPopup } from "@/components/app-download-popup"
 import { AppUpdatesPopup } from "@/components/app-updates-popup"
 import { PWAProvider } from "@/components/pwa-provider"
 
@@ -111,7 +110,6 @@ export default function RootLayout({
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
           {children}
-          <AppDownloadPopup />
           <AppUpdatesPopup />
           <PWAProvider />
         </LanguageProvider>

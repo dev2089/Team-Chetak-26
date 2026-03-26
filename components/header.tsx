@@ -119,18 +119,19 @@ export function Header() {
   const currentLang = languages.find((l) => l.code === language)
 
   const handleLanguageChange = (langCode: string) => {
-    console.log("[v0] Language button clicked:", langCode)
     setLanguage(langCode as any)
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background shadow-md">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm shadow-sm">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8 lg:py-4">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-3">
-            <Image src="/images/logo.png" alt="Team Chetak" width={48} height={48} className="rounded-lg w-12 h-12" />
-            <div className="hidden sm:block">
-              <span className="text-lg font-bold text-primary">{t("team_chetak")}</span>
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
+            <div className="flex-shrink-0 bg-gradient-to-br from-primary to-primary/80 rounded-xl p-1">
+              <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
+            </div>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-base sm:text-lg font-bold text-foreground leading-tight">{t("team_chetak")}</span>
               <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>
             </div>
           </Link>
@@ -195,13 +196,13 @@ export function Header() {
         </div>
 
         {/* Desktop right side */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-2">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-3">
           <NotificationBell />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-2">
+              <Button variant="ghost" size="sm" className="gap-2 text-sm">
                 <Globe className="h-4 w-4" />
-                <span suppressHydrationWarning>{currentLang?.nativeName}</span>
+                <span suppressHydrationWarning className="hidden xl:inline">{currentLang?.nativeName}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -217,26 +218,25 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
           {mounted && (
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            <Button variant="ghost" size="sm" onClick={toggleTheme} className="px-2">
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           )}
           <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
             <Button
               size="sm"
-              variant="outline"
-              className="gap-2 bg-green-600 border-green-600 text-white hover:bg-green-700"
+              className="gap-2 bg-green-600 hover:bg-green-700 text-white font-medium"
             >
               <MessageCircle className="h-4 w-4" /> {t("whatsapp")}
             </Button>
           </a>
           <Link href="/join">
-            <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90">
+            <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90 text-white font-medium">
               <UserPlus className="h-4 w-4" /> {t("join_team")}
             </Button>
           </Link>
           <Link href="/login">
-            <Button size="sm" variant="outline" className="gap-2 bg-transparent">
+            <Button size="sm" variant="outline" className="gap-2 border-border hover:bg-sidebar font-medium">
               <Users className="h-4 w-4" /> {t("admin_login")}
             </Button>
           </Link>
