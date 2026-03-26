@@ -127,9 +127,7 @@ export function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8 lg:py-4">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 sm:gap-2 hover:opacity-80 transition-opacity">
-            <div className="flex-shrink-0 bg-gradient-to-br from-primary to-primary/80 rounded-xl p-1">
-              <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
-            </div>
+            <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10 flex-shrink-0" />
             <div className="hidden sm:flex flex-col min-w-0">
               <span className="text-sm sm:text-base font-bold text-foreground leading-none whitespace-nowrap">{t("team_chetak")}</span>
               <p className="text-xs text-muted-foreground leading-none">{t("never_give_up")}</p>
