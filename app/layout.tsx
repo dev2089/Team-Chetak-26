@@ -7,6 +7,7 @@ import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
 import { AppDownloadPopup } from "@/components/app-download-popup"
 import { AppUpdatesPopup } from "@/components/app-updates-popup"
+import { PWAProvider } from "@/components/pwa-provider"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -99,12 +100,20 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="NqDtQZA4mgeNnfo0-b7BCsn8-O25HQ1aaMr2z7KtTDY" />
         <meta name="google-adsense-account" content="ca-pub-2026937791260614"/>
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Team Chetak" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
       </head>
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
           {children}
           <AppDownloadPopup />
           <AppUpdatesPopup />
+          <PWAProvider />
         </LanguageProvider>
         <Analytics />
         <SpeedInsights />
