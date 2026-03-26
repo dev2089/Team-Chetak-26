@@ -76,7 +76,6 @@ export function Header() {
     { name: t("events"), href: "/events", icon: Calendar },
     { name: t("announcements"), href: "/announcements", icon: Megaphone },
     { name: t("attendance"), href: "/attendance", icon: ClipboardCheck },
-    { name: "Member Directory", href: "/member-directory", icon: Users },
     { name: t("directory"), href: "/directory", icon: Users },
     { name: t("dashboard"), href: "/dashboard", icon: BarChart3 },
     { name: t("feedback"), href: "/feedback", icon: MessageSquare },
