@@ -126,13 +126,13 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8 lg:py-4">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 sm:gap-2 hover:opacity-80 transition-opacity">
             <div className="flex-shrink-0 bg-gradient-to-br from-primary to-primary/80 rounded-xl p-1">
               <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-base sm:text-lg font-bold text-foreground leading-tight">{t("team_chetak")}</span>
-              <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>
+            <div className="hidden sm:flex flex-col min-w-0">
+              <span className="text-sm sm:text-base font-bold text-foreground leading-none whitespace-nowrap">{t("team_chetak")}</span>
+              <p className="text-xs text-muted-foreground leading-none">{t("never_give_up")}</p>
             </div>
           </Link>
         </div>
@@ -245,46 +245,36 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[9999]">
+        <div className="lg:hidden fixed inset-0 z-[9999] pt-16">
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/70" onClick={() => setMobileMenuOpen(false)} />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
 
           {/* Sidebar */}
-          <div className="absolute top-0 left-0 bottom-0 w-[300px] bg-background border-r border-border flex flex-col shadow-2xl">
-            {/* Sidebar Header */}
-            <div className="flex-shrink-0 p-4 border-b border-border flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
-                <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
-                <div>
-                  <span className="text-lg font-bold text-primary">{t("team_chetak")}</span>
-                  <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>
-                </div>
-              </Link>
-              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-
+          <div className="absolute top-16 left-0 bottom-0 w-80 bg-background border-r border-border flex flex-col shadow-2xl">
             {/* Language Selector */}
-            <div className="flex-shrink-0 p-4 border-b border-border">
-              <p className="text-xs font-semibold text-muted-foreground uppercase mb-2">Language / भाषा</p>
-              <div className="flex flex-wrap gap-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={cn(
-                      "px-3 py-1.5 rounded-full text-sm font-medium transition-colors",
-                      language === lang.code
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted hover:bg-muted/80 text-foreground",
-                    )}
-                  >
-                    {lang.nativeName}
-                  </button>
-                ))}
+            <div className="flex-shrink-0 p-4 border-b border-border space-y-3">
+              <div>
+                <p className="text-xs font-semibold text-muted-foreground uppercase mb-3 tracking-wide">Language / भाषा</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        handleLanguageChange(lang.code)
+                      }}
+                      className={cn(
+                        "px-2 py-2 rounded-lg text-xs font-medium transition-colors",
+                        language === lang.code
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/80 text-foreground",
+                      )}
+                    >
+                      {lang.nativeName}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">Current: {language}</p>
+              <p className="text-xs text-muted-foreground">Current: {language}</p>
             </div>
 
             {/* Navigation Links - scrollable */}
