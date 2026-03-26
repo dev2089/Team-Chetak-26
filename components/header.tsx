@@ -124,9 +124,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm shadow-sm">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8 lg:py-4">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2 sm:gap-2 hover:opacity-80 transition-opacity">
+      <nav className="mx-auto flex max-w-full items-center justify-between px-4 py-3 lg:px-8 lg:py-4 gap-8">
+        {/* Logo */}
+        <div className="flex items-center flex-shrink-0">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10 flex-shrink-0" />
             <div className="hidden sm:flex flex-col min-w-0">
               <span className="text-sm sm:text-base font-bold text-foreground leading-none whitespace-nowrap">{t("team_chetak")}</span>
@@ -136,7 +137,7 @@ export function Header() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="flex lg:hidden items-center gap-2">
+        <div className="flex lg:hidden items-center gap-2 ml-auto">
           {mounted && (
             <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -147,14 +148,14 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Desktop navigation */}
-        <div className="hidden lg:flex lg:gap-x-4 lg:items-center">
+        {/* Desktop navigation - centered */}
+        <div className="hidden lg:flex items-center gap-8 flex-1 justify-start">
           {mainNavigation.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
+                "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
                 pathname === item.href ? "text-primary" : "text-foreground/80",
               )}
             >
@@ -163,10 +164,10 @@ export function Header() {
           ))}
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors whitespace-nowrap">
               {t("resources")} <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
+            <DropdownMenuContent align="start">
               {resourcesDropdown.map((item) => (
                 <DropdownMenuItem key={item.href} asChild>
                   <Link href={item.href} className="cursor-pointer">
@@ -178,10 +179,10 @@ export function Header() {
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-foreground/80 hover:text-primary transition-colors whitespace-nowrap">
               {t("more")} <ChevronDown className="h-4 w-4" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
+            <DropdownMenuContent align="start">
               {moreDropdown.map((item) => (
                 <DropdownMenuItem key={item.href} asChild>
                   <Link href={item.href} className="cursor-pointer">
@@ -194,13 +195,13 @@ export function Header() {
         </div>
 
         {/* Desktop right side */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-3">
+        <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
           <NotificationBell />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="gap-2 text-sm">
                 <Globe className="h-4 w-4" />
-                <span suppressHydrationWarning className="hidden xl:inline">{currentLang?.nativeName}</span>
+                <span suppressHydrationWarning className="hidden xl:inline text-xs">{currentLang?.nativeName}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -216,25 +217,25 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
           {mounted && (
-            <Button variant="ghost" size="sm" onClick={toggleTheme} className="px-2">
+            <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9">
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           )}
           <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
             <Button
               size="sm"
-              className="gap-2 bg-green-600 hover:bg-green-700 text-white font-medium"
+              className="gap-2 bg-green-600 hover:bg-green-700 text-white font-medium text-xs"
             >
               <MessageCircle className="h-4 w-4" /> {t("whatsapp")}
             </Button>
           </a>
           <Link href="/join">
-            <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90 text-white font-medium">
+            <Button size="sm" className="gap-2 bg-primary hover:bg-primary/90 text-white font-medium text-xs">
               <UserPlus className="h-4 w-4" /> {t("join_team")}
             </Button>
           </Link>
           <Link href="/login">
-            <Button size="sm" variant="outline" className="gap-2 border-border hover:bg-sidebar font-medium">
+            <Button size="sm" variant="outline" className="gap-2 border-border hover:bg-sidebar font-medium text-xs">
               <Users className="h-4 w-4" /> {t("admin_login")}
             </Button>
           </Link>
@@ -243,12 +244,26 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[9999] pt-16">
+        <div className="lg:hidden fixed inset-0 z-[9999]">
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
 
           {/* Sidebar */}
-          <div className="absolute top-16 left-0 bottom-0 w-80 bg-background border-r border-border flex flex-col shadow-2xl">
+          <div className="absolute top-0 left-0 bottom-0 w-80 bg-background border-r border-border flex flex-col shadow-2xl">
+            {/* Sidebar Header with Logo */}
+            <div className="flex-shrink-0 p-4 border-b border-border flex items-center justify-between">
+              <Link href="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                <Image src="/images/logo.png" alt="Team Chetak" width={40} height={40} className="rounded-lg w-10 h-10" />
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-foreground">{t("team_chetak")}</span>
+                  <p className="text-xs text-muted-foreground">{t("never_give_up")}</p>
+                </div>
+              </Link>
+              <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
             {/* Language Selector */}
             <div className="flex-shrink-0 p-4 border-b border-border space-y-3">
               <div>

@@ -17,6 +17,10 @@ export const viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: "#1a1a1a",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/images/logo.png",
+  },
 }
 
 export const metadata: Metadata = {
